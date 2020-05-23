@@ -3,30 +3,34 @@ close all;
 
 data_path = '../../20200502/csi_050220/';
 
-static_file_name ='rx3_nobody_empty1.mat';
-motion_file_name ='rx3_sh_walk1.mat';
+% static_file_name ='rx3_nobody_empty1.mat';
+% motion_file_name ='rx3_sh_walk1.mat';
+static_file_name = 'nobody_empty1.mat';
+motion_file_name = 'sh_walk1.mat';
 
 vicon_path='../vicon_segment/segment/';
 vicon_file_name='sh_walk1.mat';
 
 % set parameters
-rx1_loc = [3.44;0];
-rx2_loc = [0;-2.5];
-rx3_loc = [-3.44;0];
-tx_loc = [0;-3.48];
+rx_loc = [3.44,0; 0,-2.5; -3.44,0];
+rx_orient = [-pi/2; pi; pi/2];
+tx_loc = [0,-3.48];
+tx_orient = pi;
 x_range=[-3.5,3.5];
 y_range=[-2.5,2.5];
 
 cal_range=1:10000;
 
-% for widar part
-load([data_path,static_file_name],'csi_data');
-csi_data_static=csi_data;
-load([data_path,motion_file_name],'csi_data');
-csi_data_motion=csi_data;
+% % for widar part
+% load([data_path,static_file_name],'csi_data');
+% csi_data_static=csi_data;
+% load([data_path,motion_file_name],'csi_data');
+% csi_data_motion=csi_data;
 
-monoloco_main(csi_data_static,csi_data_motion,cal_range);
+all_parameter = monoloco_main(static_file_name, motion_file_name,cal_range);
 % [cal_aoa,cal_range,cal_location]=widar_main(rx3_loc,tx_loc,csi_data_static,csi_data_motion,cal_range,motion_file_name);
+
+[pos,pos_prob] = monoloco_localization(all_parameter, tx_loc, tx_orient, rx_loc, rx_orient, x_range, y_range);
 
 % for vicon part
 load([vicon_path,vicon_file_name]);
