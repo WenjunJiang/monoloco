@@ -1,6 +1,6 @@
-function [all_parameter] = monoloco_main(static_file_name,motion_file_name,cal_range)
+function [all_parameter] = monoloco_main(static_file_name,motion_file_name)
 % set parameters
-data_path = '../../20200502/csi_050220/';
+data_path = '../../data/csi_050220/';
 save_path = '../Temp/';
 c=299792458;
 carrier_frequency=5825000000.00000;
@@ -24,8 +24,8 @@ for rxId = 1:length(AS)
     sage_const = sage_set_const(T, F, A, AoD, L, N, FI, TI, AS(rxId), DS, TR, AR, AoDR, DR, UR);
     sage_const = sage_generate_steering_vector(sage_const);
 
-    data = load([data_path,'rx',num2str(rxId),'_',motion_file_name]);
-    csi_data=data.csi_data(cal_range,1:270);
+    data = load(strcat(data_path,'rx',num2str(rxId),'_',motion_file_name));
+    csi_data=data.csi_data(:,1:270);
     % Data sanitization
     for jj = 1:size(csi_data,1)
         for t=1:3
@@ -33,7 +33,7 @@ for rxId = 1:length(AS)
         end
     end
     % Path estimation.
-    estimated_parameter = sage_main(csi_data, 1000, sage_const); %5*L*G
+    estimated_parameter = sage_main(csi_data, G, sage_const); %5*L*G
     
     G2 = size(estimated_parameter,3);
     if G2<size(all_parameter,4)

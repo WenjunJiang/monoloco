@@ -36,7 +36,7 @@ end
 % for each position and each rx, find the strongest path 
 pos_feature = squeeze(max(pos_pdf,[],2)); %numRx*numPos*numPdf*G
 pos_feature = permute(pos_feature,[2,4,1,3]);
-pos_feature = reshape(pos_feature,size(pos_feature,1),size(pos_feature,2),[]);
+pos_feature = reshape(pos_feature,size(pos_feature,1),size(pos_feature,2),[]); %numPos*numSample*nFeature
 % pos_prob = prod(pos_prob,4); %numRx*1*numPos*1*G
 % pos_prob = prod(pos_prob,1); %1*1*numPos*1*G
 % pos_prob = squeeze(pos_prob); %numPos*G
