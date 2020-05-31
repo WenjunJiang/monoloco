@@ -45,21 +45,21 @@ for fi = 1:length(motion_files)
     % save pos_feature %numPos*numSample*nFeature
     save(strcat(param_path,'feature_',motion_file_name),'pos','pos_feature');
 
-    % for vicon part
-    load(strcat(vicon_path,vicon_file_name));
-    len=size(video_data,1);
-    video_data=video_data/1000;
-    person1_data=video_data(:,19:1:21);
-    person2_data=video_data(:,70:1:72);
-    
-    pos_gt = [person1_data,person2_data];
-    save(strcat(param_path, 'pos_',vicon_file_name),'pos_gt');
-    
-    [true_aoa,true_aod, true_range]=cal_para_groundtruth(tx_loc, rx_loc,person1_data);
-    save(strcat(param_path,'p1_',vicon_file_name),'true_aoa','true_aod','true_range');
-    
-    [true_aoa,true_aod, true_range]=cal_para_groundtruth(tx_loc, rx_loc,person2_data);
-    save(strcat(param_path,'p2_',vicon_file_name),'true_aoa','true_aod','true_range');
+%     % for vicon part
+%     load(strcat(vicon_path,vicon_file_name));
+%     len=size(video_data,1);
+%     video_data=video_data/1000;
+%     person1_data=video_data(:,19:1:21);
+%     person2_data=video_data(:,70:1:72);
+%     
+%     pos_gt = [person1_data,person2_data];
+%     save(strcat(param_path, 'pos_',vicon_file_name),'pos_gt');
+%     
+%     [true_aoa,true_aod, true_range]=cal_para_groundtruth(tx_loc, rx_loc,person1_data);
+%     save(strcat(param_path,'p1_',vicon_file_name),'true_aoa','true_aod','true_range');
+%     
+%     [true_aoa,true_aod, true_range]=cal_para_groundtruth(tx_loc, rx_loc,person2_data);
+%     save(strcat(param_path,'p2_',vicon_file_name),'true_aoa','true_aod','true_range');
 end
 
 

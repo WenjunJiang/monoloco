@@ -26,16 +26,21 @@ for rxId = 1:numRx
         for posId = 1:size(pos,1)
             x = pos(posId,1);
             y = pos(posId,2);
-            dist1 = abs((y-tx_loc(2))/(x-tx_loc(1)) - tan(tx_orient-pi+aod_rx));
-            dist2 = abs((y-rx_loc_n(2))/(x-rx_loc_n(1)) - tan(rx_orient_n+aoa_rx));
-            dist3 = abs(norm([x,y]-rx_loc_n) + norm([x,y]-tx_loc) - norm(rx_loc_n-tx_loc) - (tof_rx-tof_tx)*c);
+
+            dist1 = abs(atan2(y-tx_loc(2), x-tx_loc(1)) - (tx_orient-pi+aod_rx));
+            dist2 = abs(atan2(y-rx_loc_n(2), x-rx_loc_n(1)) - (rx_orient_n+aoa_rx-pi));
+            dist3 = abs(norm([x,y]-rx_loc_n) + norm([x,y]-tx_loc) - norm(rx_loc_n-tx_loc) - (tof_rx-tof_tx)*c);            
+%             dist1 = abs((y-tx_loc(2))/(x-tx_loc(1)) - tan(tx_orient-pi+aod_rx));
+%             dist2 = abs((y-rx_loc_n(2))/(x-rx_loc_n(1)) - tan(rx_orient_n+aoa_rx));
+%             dist3 = abs(norm([x,y]-rx_loc_n) + norm([x,y]-tx_loc) - norm(rx_loc_n-tx_loc) - (tof_rx-tof_tx)*c);
+
             pos_pdf(rxId, pId-1, posId, :, :) = [dist1;dist2;dist3];
         end
     end
 end
 % for each position and each rx, find the strongest path 
-pos_feature = squeeze(max(pos_pdf,[],2)); %numRx*numPos*numPdf*G
-pos_feature = permute(pos_feature,[2,4,1,3]);
+pos_feature = squeeze(min(pos_pdf,[],2)); %numRx*numPos*numPdf*G
+pos_feature = permute(pos_feature,[2,4,3,1]);
 pos_feature = reshape(pos_feature,size(pos_feature,1),size(pos_feature,2),[]); %numPos*numSample*nFeature
 % pos_prob = prod(pos_prob,4); %numRx*1*numPos*1*G
 % pos_prob = prod(pos_prob,1); %1*1*numPos*1*G
