@@ -12,7 +12,7 @@ for i=1:len
     aod(i)=atan2(person_data(i,2)-tx_loc(2), person_data(i,1)-tx_loc(1));
     for rx=1:numRx
         aoa(i,rx)=atan2(person_data(i,2)-rx_loc(rx,2), person_data(i,1)-rx_loc(rx,1));
-        range(i,rx)=sqrt((person_data(i,1)-rx_loc(rx,1))^2+(person_data(i,2)-rx_loc(rx,2))^2);
+        range(i,rx)=norm(person_data(i)-tx_loc)+norm(person_data(i)-rx_loc(rx));
     end
 end
 

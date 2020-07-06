@@ -1,7 +1,7 @@
 %% obtain signal and noise subspace in MUSIC algorithm
 function [Pn,Ps,Qn,Qs,EigenInfo] = GetQnBackscatter(X, nComps)
 % % % Input
-% X: 2 dimensions, nRx*nTx_nSubCarr*nSample
+% X: 2 dimensions, nRx*nTx*nSubCarr_nSample
 % nComps: number of paths
 % % % Output
 % Qn: matrix where each column is a basis vector of noise subspace (read MUSIC algorithm)

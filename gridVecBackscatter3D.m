@@ -12,7 +12,7 @@ nTx = size(DS_vec,2); % number of antennas on Tx
 nRx = size(AS_vec,2); % number of antennas on Rx
 
 cc = calib_const;
-nSubCarr = size(cc.f,2);
+nSubCarr = cc.F;
 
 numGridPoints = length(delayRange)*length(AoARange)*length(AoDRange); % all combinations
 if ~generateAtot
